@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import android.graphics.Color
+import android.widget.LinearLayout
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var etAngka1: EditText
@@ -19,6 +22,9 @@ class MainActivity : AppCompatActivity() {
     private val historyKurang = arrayListOf<String>()
     private val historyKali = arrayListOf<String>()
     private val historyBagi = arrayListOf<String>()
+    private lateinit var mainLayout: LinearLayout
+    private var hasilNegatif = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         etAngka1 = findViewById(R.id.etAngka1)
         etAngka2 = findViewById(R.id.etAngka2)
         tvHasil = findViewById(R.id.tvHasil)
+        mainLayout = findViewById(R.id.main)
+        mainLayout.setBackgroundColor(Color.WHITE)
+
 
 
         findViewById<Button>(R.id.btnKali).setOnClickListener {
@@ -98,6 +107,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         tvHasil.text = "Hasil: ${formatAngka(hasil)}"
+
+        hasilNegatif = hasil < 0.0
+        mainLayout.setBackgroundColor(
+            if (hasilNegatif) Color.RED
+            else Color.WHITE
+        )
+
 
         replaceFragment(operasi)
     }
