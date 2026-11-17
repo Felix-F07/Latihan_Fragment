@@ -44,6 +44,34 @@ class MainActivity : AppCompatActivity() {
         mainLayout.setBackgroundColor(Color.WHITE)
 
 
+        if (savedInstanceState != null) {
+            historyTambah.addAll(
+                savedInstanceState.getStringArrayList("historyTambah")
+                    ?: arrayListOf()
+            )
+            historyKurang.addAll(
+                savedInstanceState.getStringArrayList("historyKurang")
+                    ?: arrayListOf()
+            )
+            historyKali.addAll(
+                savedInstanceState.getStringArrayList("historyKali")
+                    ?: arrayListOf()
+            )
+            historyBagi.addAll(
+                savedInstanceState.getStringArrayList("historyBagi")
+                    ?: arrayListOf()
+            )
+
+            hasilNegatif = savedInstanceState.getBoolean("hasilNegatif", false)
+            tvHasil.text = savedInstanceState.getString("teksHasil", "Hasil: -")
+        }
+
+        mainLayout.setBackgroundColor(
+            if (hasilNegatif) Color.RED
+            else Color.WHITE
+        )
+
+
 
         findViewById<Button>(R.id.btnKali).setOnClickListener {
             hitung("*")
@@ -174,5 +202,31 @@ class MainActivity : AppCompatActivity() {
         } else {
             angka.toString()
         }
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putStringArrayList(
+            "historyTambah",
+            ArrayList(historyTambah)
+        )
+        outState.putStringArrayList(
+            "historyKurang",
+            ArrayList(historyKurang)
+        )
+        outState.putStringArrayList(
+            "historyKali",
+            ArrayList(historyKali)
+        )
+        outState.putStringArrayList(
+            "historyBagi",
+            ArrayList(historyBagi)
+        )
+        outState.putBoolean("hasilNegatif", hasilNegatif)
+        outState.putString(
+            "teksHasil",
+            tvHasil.text.toString()
+        )
+        super.onSaveInstanceState(outState)
     }
 }
